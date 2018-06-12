@@ -8,8 +8,8 @@ namespace Task10
 {
     class Tree
     {
-        public string data;
-        public Tree left, right;
+        public string data;//Значение элемента дерева
+        public Tree left, right;//Правое и левое поддеревья
         public Tree()
         {
             data = "ROOT";
@@ -74,7 +74,7 @@ namespace Task10
         }
 
         #endregion
-        public static void Count(Tree p, ref int rez)
+        public static void Count(Tree p, ref int rez)//Подсчет кол-ва элементов в дереве
         {
 
             if (p != null)
@@ -87,16 +87,20 @@ namespace Task10
         }
         static Tree Add(Tree tree,string str)
         {
-            //Tree p = tree;
-            Tree p = new Tree(str);
+            Tree p = new Tree(str);//Создание вершины дерева
             int left=0;
+            //Подсчет кол-ва элементов в левом поддереве
             Count(tree.left,ref left);
             int right = 0;
+            //Подсчет кол-ва элементов в правом поддереве
             Count(tree.right,ref right);
+            //Если левое поддерево отсутствует, то добавляем на его место созданную вершину
             if (left == 0)
                 tree.left = p;
+            //Если правое поддерево отсутствует, то добавляем на его место созданную вершину
             else if (right == 0)
                 tree.right = p;
+            //Если слева и справа существуют поддеревья, то переход на ярус ниже и проверка там
             else
             {
                 if (left > right)
@@ -105,7 +109,7 @@ namespace Task10
             }
             return tree;
         }
-        static void ShowTree(Tree p, int l)
+        static void ShowTree(Tree p, int l)//Вывод дерева в консоли
         {
             if (p != null)
             {
@@ -124,6 +128,32 @@ namespace Task10
             Add(newtree, "004");
             Add(newtree, "005");
             Add(newtree, "006");
+            Add(newtree, "007");
+            Add(newtree, "008");
+            Add(newtree, "009");
+            Console.WriteLine("Изначальное дерево: ");
+            ShowTree(newtree, 0);
+            int option = 1;
+            bool OK;
+            do
+            {
+                do
+                {
+                    Console.WriteLine("Чтобы добавить вершину введите 1, чтобы выйти из программы и вывести дерево - 0");
+                    OK = Int32.TryParse(Console.ReadLine(), out option)&&(option==1||option==0);
+                } while (!OK);
+                if (option == 1)
+                {
+                    string str;
+                    do
+                    {
+                        Console.WriteLine("Введите значение элемента: ");
+                        str = Console.ReadLine();
+                        str=str.Trim();
+                    } while (str == "");
+                    Add(newtree, str);
+                }
+            } while (option!=0);
             ShowTree(newtree, 0);
             Console.Read();
         }
